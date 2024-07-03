@@ -1,7 +1,7 @@
 ﻿using DT.Model.Data.Base;
 using System.Linq.Expressions;
 
-namespace DT.Represitory
+namespace DT.Represitory.Repo
 {
     public interface IGenericRepository<T> where T : BaseEntity
     {
@@ -13,15 +13,15 @@ namespace DT.Represitory
 
         T GetWithIncludes(Guid id);
         Task<T> GetWithIncludesAsync(Guid id);
-        
+
         bool Delete(Guid id);
         Task<bool> DeleteAsync(Guid id);
 
-        T Add(in T sender);
-        Task<T> AddAsync(in T sender);
+        T Add(T entity);
+        Task<T> AddAsync(T entity);
 
-        bool Update(in T sender);
-        Task<bool> UpdateAsync(in T sender);
+        bool Update(T entity);
+        Task<bool> UpdateAsync(T entity);
 
         bool Save();
         Task<bool> SaveAsync();
