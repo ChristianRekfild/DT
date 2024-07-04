@@ -75,6 +75,7 @@ namespace DT.Represitory.Repo
             if (entity != null)
             {
                 _context.Remove(entity);
+                _context.SaveChanges();
                 return true;
             }
             return false;
@@ -91,6 +92,7 @@ namespace DT.Represitory.Repo
             if (entity != null)
             {
                 _context.Remove(entity);
+                await _context.SaveChangesAsync();
                 return true;
             }
             return false;

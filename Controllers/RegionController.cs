@@ -10,9 +10,17 @@ namespace DT.Controllers
     {
         IRegionService _regionService;
 
-        public RegionController(IRegionService regionService) 
+        public RegionController(IRegionService regionService)
         {
             _regionService = regionService;
+        }
+
+        [HttpGet]
+        [Route("Get")]
+        // TODO потом возвращать DTO
+        public async Task<Region> Get(Guid id)
+        {
+            return await _regionService.GetAsync(id);
         }
 
         [HttpPost]
@@ -22,5 +30,13 @@ namespace DT.Controllers
             await _regionService.AddAsync(region);
             return Ok();
         }
+
+        [HttpDelete]
+        [Route("Delete")]
+        public async Task<bool> DeleteRegion(Guid id)
+        {
+            return await _regionService.DeleteAsync(id);
+        }
     }
+
 }

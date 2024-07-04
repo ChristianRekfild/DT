@@ -12,9 +12,19 @@ namespace DT.Services
             _regionRepository = regionRepository;
         }
 
+        public Task<Region> GetAsync(Guid id)
+        {
+            return _regionRepository.GetAsync(id);
+        }
+
         public async Task<Region> AddAsync(Region region)
         {
             return await _regionRepository.AddAsync(region);
+        }
+
+        public async Task<bool> DeleteAsync(Guid id)
+        {
+            return await _regionRepository.DeleteAsync(id);
         }
     }
 }
