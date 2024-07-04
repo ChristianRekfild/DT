@@ -9,30 +9,53 @@ namespace DT.Represitory.Repo
         protected readonly DbContext _context;
         private readonly DbSet<T> _entitySet;
 
+        /// <summary>
+        /// Generic'овый репрезеторий, чтобы не писать лишний раз методы получения, добавления и бла бла бла
+        /// </summary>
+        /// <param name="context">Контекст данных</param>
         public GenericRepository(DbContext context)
         {
             _context = context;
             _entitySet = _context.Set<T>();
         }
 
+        /// <summary>
+        /// Получение сущности с БД (синхронное)
+        /// </summary>
+        /// <param name="id">Guid Id сущности</param>
+        /// <returns></returns>
         public virtual T Get(Guid id)
         {
-            //return _context.Find(id.ToString());
             return _context.Find<T>(id);
         }
 
+        /// <summary>
+        /// Получение сущности с БД (aсинхронное)
+        /// </summary>
+        /// <param name="id">Guid Id сущности</param>
+        /// <returns></returns>
         public virtual async Task<T> GetAsync(Guid id)
         {
             return await _context.FindAsync<T>(id);
         }
 
+        /// <summary>
+        /// Добавление сущности в БД (синхронное)
+        /// </summary>
+        /// <param name="entity">Сущность для добавления</param>
+        /// <returns></returns>
         public virtual T Add(T entity)
         {
-            var returnedEntity = (_context.Add<T>(entity).Entity);
+            var returnedEntity = _context.Add<T>(entity).Entity;
             _context.SaveChanges();
             return returnedEntity;
         }
 
+        /// <summary>
+        /// Добавление сущности в БД (асинхронное)
+        /// </summary>
+        /// <param name="entity">Сущность для добавления</param>
+        /// <returns></returns>
         public virtual async Task<T> AddAsync(T entity)
         {
             var objToReturn = await _context.AddAsync<T>(entity);
@@ -41,15 +64,36 @@ namespace DT.Represitory.Repo
         }
 
 
-
+        /// <summary>
+        /// Удаление сущности из БД (синхронное)
+        /// </summary>
+        /// <param name="id">Сущность для удаления</param>
+        /// <returns>true, если успешно. Иначе - false</returns>
         public bool Delete(Guid id)
         {
-            throw new NotImplementedException();
+            var entity = _context.Find<T>(id);
+            if (entity != null)
+            {
+                _context.Remove(entity);
+                return true;
+            }
+            return false;
         }
 
-        public Task<bool> DeleteAsync(Guid id)
+        /// <summary>
+        /// Удаление сущности из БД (фсинхронное)
+        /// </summary>
+        /// <param name="id">Сущность для удаления</param>
+        /// <returns>true, если успешно. Иначе - false</returns>
+        public async Task<bool> DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var entity = await _context.FindAsync<T>(id);
+            if (entity != null)
+            {
+                _context.Remove(entity);
+                return true;
+            }
+            return false;
         }
 
         
