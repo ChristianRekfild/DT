@@ -33,10 +33,23 @@ namespace DT.Controllers
 
         [HttpDelete]
         [Route("Delete")]
-        public async Task<bool> DeleteRegion(Guid id)
+        public async Task<IActionResult> DeleteRegion(Guid id)
         {
-            return await _regionService.DeleteAsync(id);
+            if (await _regionService.DeleteAsync(id))
+                return Ok();
+            return NotFound();
         }
+
+        // ---------------------------------------------
+
+        [HttpGet]
+        [Route("GetAll")]
+        public async Task<IEnumerable<Region>> GetAll()
+        {
+            return await _regionService.GetAllAsync();
+        }
+
+
     }
 
 }

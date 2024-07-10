@@ -6,7 +6,7 @@ namespace DT.Represitory.Repo
     public interface IGenericRepository<T> where T : BaseEntity
     {
         IEnumerable<T> GetAll();
-        Task<List<T>> GetAllAsync();
+        Task<IEnumerable<T>> GetAllAsync();
 
         T Get(Guid id);
         Task<T> GetAsync(Guid id);

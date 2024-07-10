@@ -82,7 +82,7 @@ namespace DT.Represitory.Repo
         }
 
         /// <summary>
-        /// Удаление сущности из БД (фсинхронное)
+        /// Удаление сущности из БД (асинхронное)
         /// </summary>
         /// <param name="id">Сущность для удаления</param>
         /// <returns>true, если успешно. Иначе - false</returns>
@@ -102,15 +102,16 @@ namespace DT.Represitory.Repo
 
         public IEnumerable<T> GetAll()
         {
-            throw new NotImplementedException();
+            return _context.Set<T>();
         }
 
-        public Task<List<T>> GetAllAsync()
+
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Set<T>().AsNoTracking().ToListAsync();
         }
 
-        
+
 
         public T GetWithIncludes(Guid id)
         {
@@ -124,12 +125,18 @@ namespace DT.Represitory.Repo
 
         public bool Save()
         {
-            throw new NotImplementedException();
+            if (_context.SaveChanges() > 0)
+                return true;
+            
+            return false;
         }
 
-        public Task<bool> SaveAsync()
+        // TODO использовать токен отмены потом
+        public async Task<bool> SaveAsync()
         {
-            throw new NotImplementedException();
+            if (await _context.SaveChangesAsync(true) > 0)
+                return true;
+            return false;
         }
 
         public T Select(Expression<Func<T, bool>> predicate)

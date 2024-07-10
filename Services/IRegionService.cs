@@ -7,5 +7,6 @@ namespace DT.Services
         public Task<Region> AddAsync(Region region);
         public Task<Region> GetAsync(Guid id);
         public Task<bool> DeleteAsync(Guid id);
+        public Task<IEnumerable<Region>> GetAllAsync();
     }
 }
