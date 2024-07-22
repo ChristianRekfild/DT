@@ -1,4 +1,7 @@
 
+//using DT.Mapper;
+using AutoMapper;
+using DT.Mapper;
 using DT.Model;
 using DT.Represitory;
 using DT.Services;
@@ -24,15 +27,18 @@ namespace DT
 
             var configuration = builder.Services.BuildServiceProvider().GetService<IConfiguration>();
             if (configuration == null)
-                throw new Exception("Not fountproget onfiguration.");
+                throw new Exception("Not fount progeñt Ñonfiguration.");
 
 
             builder.Services.AddDbContext<DataContext>(options =>
         options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
+            //builder.Services.AddAutoMapper(typeof(AutoMapperDT));
+            builder.Services.AddAutoMapper(typeof(AutoMapperDT));
 
             builder.Services.AddScoped(typeof(DbContext), typeof(DataContext));
             builder.Services.AddScoped<IRegionService, RegionService>();
+            builder.Services.AddScoped<ICityService, CityService>();
             builder.Services.AddScoped<IRegionRepository, RegionRepository>();
             builder.Services.AddScoped<ICityRepository, CityRepository>();
 

@@ -5,6 +5,9 @@ namespace DT.Model.Data.Location
 {
     public class City : BaseEntity
     {
+        /// <summary>
+        /// Название города
+        /// </summary>
         [Required]
         public string Name { get; set; }
 

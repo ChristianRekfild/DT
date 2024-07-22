@@ -13,13 +13,14 @@ namespace DT.Model.Data
         [StringLength(100)]
 
         public string Login { get; set; }
+
         /// <summary>
         /// Хэш пароля
         /// </summary>
         [StringLength(150)]
         [Required]
-
         public string Password { get; set; }
+
         /// <summary>
         /// Email пользователя
         /// </summary>
