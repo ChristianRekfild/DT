@@ -25,7 +25,7 @@ namespace DT.Services
         {
             var region = await _regionRepository.GetAsync(regionGuid);
             if (region is null)
-                throw new RegionNotFoundExceprion("Запращиваемый Регион по указанному Guid'у не найден");
+                throw new RegionNotFoundException("Запращиваемый Регион по указанному Guid'у не найден");
 
             city.Region = region;
             return await _cityRepository.AddAsync(city);

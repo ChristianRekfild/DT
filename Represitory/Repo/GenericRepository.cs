@@ -139,14 +139,37 @@ namespace DT.Represitory.Repo
             return false;
         }
 
-        public T Select(Expression<Func<T, bool>> predicate)
+
+
+
+        public T SelectFirst(Expression<Func<T, bool>> predicate)
         {
-            throw new NotImplementedException();
+            T first = _context.Set<T>().Where(predicate).FirstOrDefault();
+
+            return first;
         }
 
-        public Task<T> SelectAsync(Expression<Func<T, bool>> predicate)
+        public async Task<T> SelectFirstAsync(Expression<Func<T, bool>> predicate)
         {
-            throw new NotImplementedException();
+            T first = await _context.Set<T>().Where(predicate).FirstOrDefaultAsync();
+
+            return first;
+        }
+
+
+
+        public T Select(Expression<Func<T, bool>> predicate)
+        {
+            T first = _context.Set<T>().Where(predicate).FirstOrDefault();
+
+            return first;
+        }
+
+        public async Task<T> SelectAsync(Expression<Func<T, bool>> predicate)
+        {
+            T first = await _context.Set<T>().Where(predicate).FirstOrDefaultAsync();
+
+            return first;
         }
 
         public bool Update(T entity)

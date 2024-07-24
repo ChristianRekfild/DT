@@ -33,7 +33,6 @@ namespace DT
             builder.Services.AddDbContext<DataContext>(options =>
         options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
-            //builder.Services.AddAutoMapper(typeof(AutoMapperDT));
             builder.Services.AddAutoMapper(typeof(AutoMapperDT));
 
             builder.Services.AddScoped(typeof(DbContext), typeof(DataContext));

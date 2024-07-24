@@ -1,5 +1,6 @@
 ﻿using DT.Model.Data.Location;
 using DT.Services;
+using DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DT.Controllers
@@ -25,10 +26,13 @@ namespace DT.Controllers
 
         [HttpPost]
         [Route("Add")]
-        public async Task<IActionResult> AddRegion(Region region)
+        public async Task<IActionResult> AddRegion(RegionDTO region)
         {
-            await _regionService.AddAsync(region);
-            return Ok();
+            var regionDTO = await _regionService.AddAsync(region);
+            if (regionDTO != null)
+                return Ok();
+            else
+                return BadRequest();
         }
 
         [HttpDelete]
@@ -44,7 +48,7 @@ namespace DT.Controllers
 
         [HttpGet]
         [Route("GetAll")]
-        public async Task<IEnumerable<Region>> GetAll()
+        public async Task<IEnumerable<RegionDTO>> GetAll()
         {
             return await _regionService.GetAllAsync();
         }

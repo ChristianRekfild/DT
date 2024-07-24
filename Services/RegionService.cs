@@ -1,5 +1,6 @@
 ﻿//using DT.CustomMapper;
 using AutoMapper;
+using DT.CustomExceprions;
 using DT.Mapper;
 
 //using DT.Mapper;
@@ -33,9 +34,30 @@ namespace DT.Services
             return regionDTO;
         }
 
-        public async Task<Region> AddAsync(Region region)
+        public async Task<RegionDTO> AddAsync(RegionDTO regionDTO)
         {
-            return await _regionRepository.AddAsync(region);
+            // Проверяем наличие такого региона в БД по названию
+            var entityInDB = await _regionRepository.SelectFirstAsync(x => x.Name == regionDTO.Name.Trim());
+            if (entityInDB != null)
+                return null;
+
+            // Если в БД есть такой Guid - то создаём новый для того, чтобы в БД не было конфликтов. Зачем оно нам?)
+            entityInDB = await _regionRepository.GetAsync(regionDTO.Id);
+            if (entityInDB != null)
+                regionDTO.Id = Guid.NewGuid();
+
+            Region region = new Region();
+            region.Name = regionDTO.Name.Trim();
+            region.CreatedAt = DateTime.Now;
+            region.UpdatedAt = DateTime.Now;
+
+            Region addedRegion = await _regionRepository.AddAsync(region);
+            if (addedRegion is null)
+                throw new RegionAddException("Ошибка добавления региона в базу данных");
+
+            RegionDTO addeedRegionDTO = _autoMapperDT.Map<RegionDTO>(addedRegion);
+
+            return addeedRegionDTO;
         }
 
         public async Task<bool> DeleteAsync(Guid id)
@@ -43,9 +65,16 @@ namespace DT.Services
             return await _regionRepository.DeleteAsync(id);
         }
 
-        public async Task<IEnumerable<Region>> GetAllAsync()
+        public async Task<IEnumerable<RegionDTO>> GetAllAsync()
         {
-            return await _regionRepository.GetAllAsync();
+            List<RegionDTO> listOfRegionsDTO = new List<RegionDTO>();
+
+            var regions = await _regionRepository.GetAllAsync();
+
+            listOfRegionsDTO = _autoMapperDT.Map<List<RegionDTO>>(regions);
+
+            return listOfRegionsDTO;
+
         }
     }
 }

@@ -1,11 +1,11 @@
 ﻿namespace DT.CustomExceprions
 {
-    public class RegionNotFoundExceprion : Exception
+    public class RegionNotFoundException : Exception
     {
         /// <summary>
         /// Ошибка в случае отсутствия Региона в БД
         /// </summary>
         /// <param name="error"></param>
-        public RegionNotFoundExceprion(string error) : base(error) { }
+        public RegionNotFoundException(string error) : base(error) { }
     }
 }

@@ -14,6 +14,11 @@ namespace DT.Mapper
     {
         public AutoMapperDT()
         {
+            //CreateMap<List<Region>, List<RegionDTO>>()
+            //    .ForMember(
+            //        dest => dest.,
+            //        opt => opt.MapFrom(src => src.LibraryItemCategories));
+
             CreateMap<Region, RegionDTO>()
                 .ForMember(x => x.Cities, c => c.MapFrom(v => v.Cities));
             CreateMap<RegionDTO, Region>();

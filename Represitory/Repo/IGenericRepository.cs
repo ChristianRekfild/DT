@@ -26,6 +26,9 @@ namespace DT.Represitory.Repo
         bool Save();
         Task<bool> SaveAsync();
 
+        public T SelectFirst(Expression<Func<T, bool>> predicate);
+        public Task<T> SelectFirstAsync(Expression<Func<T, bool>> predicate);
+
         public T Select(Expression<Func<T, bool>> predicate);
         public Task<T> SelectAsync(Expression<Func<T, bool>> predicate);
     }
