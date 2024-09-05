@@ -22,6 +22,8 @@ namespace DT.Controllers
         public async Task<DTO.RegionDTO> Get(Guid id)
         {
             return await _regionService.GetAsync(id);
+
+
         }
 
         [HttpPost]

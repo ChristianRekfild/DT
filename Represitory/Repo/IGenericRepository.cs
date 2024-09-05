@@ -11,9 +11,6 @@ namespace DT.Represitory.Repo
         T Get(Guid id);
         Task<T> GetAsync(Guid id);
 
-        Task<T> GetWithInclude(Guid id);
-        Task<T> GetAsyncWithInclude(Guid id);
-
         T GetWithIncludes(Guid id);
         Task<T> GetWithIncludesAsync(Guid id);
 

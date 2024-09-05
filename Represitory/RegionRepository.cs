@@ -43,5 +43,6 @@ namespace DT.Represitory
 
             return _regions.Where(x => x.Id == id).Include(c => c.Cities).FirstOrDefault();
         }
+
     }
 }

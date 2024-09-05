@@ -1,6 +1,8 @@
-﻿using DT.CustomExceprions;
+﻿using AutoMapper;
+using DT.CustomExceprions;
 using DT.Model.Data.Location;
 using DT.Represitory;
+using DTO;
 using System.Collections;
 
 namespace DT.Services
@@ -9,16 +11,24 @@ namespace DT.Services
     {
         private readonly ICityRepository _cityRepository;
         private readonly IRegionRepository _regionRepository;
+        private readonly IMapper _autoMapperDT;
 
-        public CityService(ICityRepository cityRepository, IRegionRepository regionRepository)
+        public CityService(ICityRepository cityRepository, IRegionRepository regionRepository, IMapper autoMapperDT)
         {
             _cityRepository = cityRepository;
             _regionRepository = regionRepository;
+            _autoMapperDT = autoMapperDT;
         }
 
-        public Task<City> GetAsync(Guid id)
+        public async Task<DTO.CityDTO> GetAsync(Guid id)
         {
-            return _cityRepository.GetAsync(id);
+            City city = await _cityRepository.GetAsync(id);
+            if (city is null)
+                return null;
+
+            CityDTO cityDTO = _autoMapperDT.Map<CityDTO>(city);
+
+            return cityDTO;
         }
 
         public async Task<City> AddAsync(City city, Guid regionGuid)

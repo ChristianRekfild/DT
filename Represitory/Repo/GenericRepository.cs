@@ -112,17 +112,6 @@ namespace DT.Represitory.Repo
         }
 
 
-
-        public T GetWithIncludes(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<T> GetWithIncludesAsync(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
         public bool Save()
         {
             if (_context.SaveChanges() > 0)
@@ -172,6 +161,17 @@ namespace DT.Represitory.Repo
             return first;
         }
 
+
+        // ------ ! НЕ РЕАЛИЗОВАНО В ДАННОМ КЛАССЕ ! ------ //
+        // ----------- Реализуем в наследниках ----------- //
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public bool Update(T entity)
         {
             throw new NotImplementedException();
@@ -181,5 +181,28 @@ namespace DT.Represitory.Repo
         {
             throw new NotImplementedException();
         }
+
+        /// <summary>
+        /// ! Метод не реализован, так как нужно понимать - что подтягивать !
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public T GetWithIncludes(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// ! Метод не реализован, так как нужно понимать - что подтягивать !
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public Task<T> GetWithIncludesAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

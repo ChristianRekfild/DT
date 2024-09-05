@@ -26,7 +26,7 @@ namespace DT.Services
         public async Task<RegionDTO> GetAsync(Guid id)
         {
             //var regionEntity = await _regionRepository.GetAsync(id);
-            var regionEntity = await _regionRepository.GetAsyncWithInclude(id);
+            var regionEntity = await _regionRepository.GetWithIncludesAsync(id);
             if (regionEntity is null)
                 return null;
 

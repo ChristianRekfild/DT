@@ -18,7 +18,7 @@ namespace DT.Controllers
         [HttpGet]
         [Route("Get")]
         // TODO потом возвращать DTO
-        public async Task<City> Get(Guid id)
+        public async Task<DTO.CityDTO> Get(Guid id)
         {
             return await _cityService.GetAsync(id);
         }
