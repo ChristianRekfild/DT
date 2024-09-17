@@ -41,6 +41,10 @@ namespace DT
             builder.Services.AddScoped<IRegionRepository, RegionRepository>();
             builder.Services.AddScoped<ICityRepository, CityRepository>();
 
+            builder.Services.AddControllers().AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
+
 
             var app = builder.Build();
 

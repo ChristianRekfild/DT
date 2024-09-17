@@ -5,5 +5,6 @@ namespace DT.Represitory
 {
     public interface ICityRepository : IGenericRepository<City>
     {
+        public Task<City> GetWithIncludesAsync(Guid id);
     }
 }

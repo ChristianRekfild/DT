@@ -1,5 +1,6 @@
 ﻿using DT.Model.Data.Location;
 using DT.Services;
+using DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DT.Controllers
@@ -18,14 +19,14 @@ namespace DT.Controllers
         [HttpGet]
         [Route("Get")]
         // TODO потом возвращать DTO
-        public async Task<DTO.CityDTO> Get(Guid id)
+        public async Task<CityDTO> Get(Guid id)
         {
             return await _cityService.GetAsync(id);
         }
 
         [HttpPost]
         [Route("Add")]
-        public async Task<IActionResult> AddCity(City city, Guid regionGuid)
+        public async Task<IActionResult> AddCity(CityDTO_WithoutRegion city, Guid regionGuid)
         {
             await _cityService.AddAsync(city, regionGuid);
             return Ok();
@@ -44,9 +45,10 @@ namespace DT.Controllers
 
         [HttpGet]
         [Route("GetAll")]
-        public async Task<IEnumerable<City>> GetAll()
+        public async Task<IEnumerable<CityDTO>> GetAll()
         {
-            return await _cityService.GetAllAsync();
+            var cities =  await _cityService.GetAllAsync();
+            return cities;
         }
 
 

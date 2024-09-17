@@ -26,6 +26,9 @@ namespace DT.Mapper
             CreateMap<City, CityDTO>();
             CreateMap<CityDTO, City>();
 
+            CreateMap<City, CityDTO_WithoutRegion>();
+            CreateMap<CityDTO_WithoutRegion, City>();
+
             //.ForMember(s => s.PageUIs, c => c.MapFrom(m => m.Pages));
             //Mapper.CreateMap<Page, PageUI>();
         }

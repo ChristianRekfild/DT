@@ -20,9 +20,9 @@ namespace DT.Services
             _autoMapperDT = autoMapperDT;
         }
 
-        public async Task<DTO.CityDTO> GetAsync(Guid id)
+        public async Task<CityDTO> GetAsync(Guid id)
         {
-            City city = await _cityRepository.GetAsync(id);
+            City city = await _cityRepository.GetWithIncludesAsync(id);
             if (city is null)
                 return null;
 
@@ -31,14 +31,19 @@ namespace DT.Services
             return cityDTO;
         }
 
-        public async Task<City> AddAsync(City city, Guid regionGuid)
+        public async Task<CityDTO> AddAsync(CityDTO_WithoutRegion city, Guid regionGuid)
         {
             var region = await _regionRepository.GetAsync(regionGuid);
             if (region is null)
-                throw new RegionNotFoundException("Запращиваемый Регион по указанному Guid'у не найден");
+                throw new RegionNotFoundException("Запрашиваемый Регион по указанному Guid'у не найден");
 
-            city.Region = region;
-            return await _cityRepository.AddAsync(city);
+            City newCity = _autoMapperDT.Map<City>(city);
+
+            newCity.Region = region;
+            var addedCity = await _cityRepository.AddAsync(newCity);
+            CityDTO returnedCityDTO = _autoMapperDT.Map<CityDTO>(addedCity);
+
+            return returnedCityDTO;
         }
 
         public async Task<bool> DeleteAsync(Guid id)
@@ -46,9 +51,12 @@ namespace DT.Services
             return await _cityRepository.DeleteAsync(id);
         }
 
-        public async Task<IEnumerable<City>> GetAllAsync()
+        public async Task<IEnumerable<CityDTO>> GetAllAsync()
         {
-            return await _cityRepository.GetAllAsync();
+            var cities = await _cityRepository.GetAllAsync();
+
+            var citiesDTO = _autoMapperDT.Map<IEnumerable<CityDTO>>(cities);
+            return citiesDTO;
         }
     }
 }
