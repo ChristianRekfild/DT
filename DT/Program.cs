@@ -26,8 +26,8 @@ namespace DT
             builder.Services.AddSwaggerGen();
 
             var configuration = builder.Services.BuildServiceProvider().GetService<IConfiguration>();
-            if (configuration == null)
-                throw new Exception("Not fount progeсt Сonfiguration.");
+            if (configuration is null)
+                throw new Exception("Not fount project Configuration.");
 
 
             builder.Services.AddDbContext<DataContext>(options =>
@@ -41,25 +41,29 @@ namespace DT
             builder.Services.AddScoped<IRegionRepository, RegionRepository>();
             builder.Services.AddScoped<ICityRepository, CityRepository>();
 
+            // Нужно для избегания циклического преобразования объектов в JSON (у города есть регион,  у региона есть город, давай крутить это в json до переполнения стэка!)
             builder.Services.AddControllers().AddNewtonsoftJson(options =>
-    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-);
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
 
 
+            // а вот тут, судя по книге должен быть класс Startup. Забавное
             var app = builder.Build();
+
+            // Что забавно - похоже конвеер (middleware) так же прописывается ниже.
+            // Главное, что стоит там помнить - порядок важен. Добавленный вновь сервис имеет доступ к данным, которые идут до него.
+            // и "пошёл нафиг" от элементов, добавленных после
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+                app.UseDeveloperExceptionPage(); // Может что интересное увижу? Мой проект - хочу увидеть взрослые штуки - буду смотреть!
             }
 
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
-
-
             app.MapControllers();
 
             app.Run();
