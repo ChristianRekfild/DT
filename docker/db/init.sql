@@ -1,0 +1,14 @@
+﻿CREATE ROLE Chris WITH LOGIN ENCRYPTED PASSWORD '2113';
+
+GRANT ALL ON SCHEMA public TO Chris;
+GRANT USAGE ON SCHEMA public TO Chris;
+GRANT ALL ON ALL TABLES IN SCHEMA public TO Chris;
+
+
+create DATABASE DT;
+ALTER DATABASE DT OWNER TO Chris;
+create schema main;
+grant all privileges on database DT to Chris;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA main TO Chris;
+GRANT ALL PRIVILEGES ON SCHEMA main TO GROUP Chris;
+

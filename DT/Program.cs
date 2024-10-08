@@ -62,9 +62,13 @@ namespace DT
                 app.UseDeveloperExceptionPage(); // Может что интересное увижу? Мой проект - хочу увидеть взрослые штуки - буду смотреть!
             }
 
-            app.UseHttpsRedirection();
+            // приложение теперь стесняшка и отвечает только на https. Проще говоря - с незнакомыми дядями - ни-ни. Не трогать.
+            app.UseHttpsRedirection(); 
             app.UseAuthorization();
             app.MapControllers();
+
+            // тут не пригодится, но будет напоминалкой. Проверяет запрос на файлы css, js и картинки. Есть такое - возвращает файл
+            // app.UseStaticFiles();
 
             app.Run();
         }
