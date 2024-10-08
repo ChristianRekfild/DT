@@ -6,8 +6,10 @@ services:
     image: postgres
     restart: always
     environment:
+      POSTGRES_DB: DT # new
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
+      POSTGRES_PORT: 5432 # new
     ports:
       - 5481:5432
     volumes:
